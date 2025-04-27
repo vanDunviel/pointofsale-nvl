@@ -27,32 +27,49 @@
         
         <!-- Kiri: Produk List -->
         <div class="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-3 gap-2 overflow-y-auto">
-        @foreach ($produks as $produk)
+            @foreach ($produks as $produk)
+            @php
+                $isOutOfStock = $produk->kuantitas <= 0;
+            @endphp
             <div class="aspect-square bg-gray-100 dark:bg-gray-900 p-2 rounded shadow flex flex-col items-center justify-between">
-            <img 
-                src="{{ $produk->image_url ?? '/default.jpg' }}" 
-                alt="{{ $produk->nama_produk }}" 
-                class="w-2/3 h-2/3 object-contain rounded mb-1"
-            >
-            <h3 class="text-center font-semibold text-gray-800 dark:text-gray-200 text-sm">
-                {{ Str::limit($produk->nama_produk, 15) }}
-            </h3>
-            <p class="text-gray-600 dark:text-gray-400 text-xs mb-1">
-                Rp {{ number_format($produk->harga, 0, ',', '.') }}
-            </p>
-            <form action="{{ route('keranjang.store') }}" method="POST" class="w-full">
-                @csrf
-                <input type="hidden" name="produk_id" value="{{ $produk->id }}">
-                <input type="hidden" name="jumlah" value="1">
-                <button 
-                type="submit" 
-                class="w-full bg-green-500 hover:bg-green-600 text-white py-1 rounded text-xs font-semibold"
+                <img 
+                    src="{{ $produk->gambar_produk ? asset('storage/' . $produk->gambar_produk) : '/default.jpg' }}" 
+                    alt="{{ $produk->nama_produk }}" 
+                    class="w-2/3 h-2/3 object-contain rounded mb-1"
+                    onerror="this.onerror=null;this.src='/default.jpg';"
                 >
-                + Tambah
-                </button>
-            </form>
+                <h3 class="text-center font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                    {{ Str::limit($produk->nama_produk, 15) }}
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 text-xs mb-0">
+                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                </p>
+                <form action="{{ route('keranjang.store') }}" method="POST" class="w-full">
+                    @csrf
+                    <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+                    <input type="hidden" name="jumlah" value="1">
+                    <div class="flex items-center w-full">
+                        <div class="w-1/3 text-right mr-2 mt-1">
+                            <p class="text-gray-600 dark:text-gray-400 text-xs">
+                                Stok: {{ $produk->kuantitas }}
+                            </p>
+                        </div>
+                        <div class="w-2/3 text-right">
+                            <button 
+                                type="submit" 
+                                class="w-2/3 py-1 px-1 rounded text-xs font-semibold
+                                    {{ $isOutOfStock ? 
+                                    'bg-gray-400 dark:bg-gray-600 cursor-not-allowed' : 
+                                    'bg-green-500 hover:bg-green-600 text-white' }}"
+                                {{ $isOutOfStock ? 'disabled' : '' }}
+                            >
+                                + Tambah
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        @endforeach
+            @endforeach
         </div>
 
         <!-- Kanan: Ringkasan Pembayaran -->
@@ -72,24 +89,21 @@
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $item->produk->nama_produk }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
-                                <td class="px-3 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $item->jumlah }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">
+                                    <form action="{{ route('keranjang.update', $item) }}" method="POST" class="flex items-center">
+                                        @csrf
+                                        @method('POST')
+                                        <input type="number" 
+                                            name="quantity" 
+                                            value="{{ $item->jumlah }}" 
+                                            min="1" 
+                                            max="{{ $item->produk->kuantitas }}"
+                                            class="w-16 text-center border-gray-300 rounded dark:bg-gray-800 dark:text-gray-100"
+                                            onchange="this.form.submit()">
+                                    </form>
+                                </td>
                                 <td class="px-6 py-4 whitespace-nowrap flex gap-2 justify-center">
-                                    <!-- Tombol-tombol aksi -->
-                                    <!-- Kurangi -->
-                                    <form action="{{ route('keranjang.store', $item) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="action" value="decrease">
-                                        <button type="submit" class="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-sm">-</button>
-                                    </form>
 
-                                    <!-- Tambah -->
-                                    <form action="{{ route('keranjang.store', $item) }}" method="POST">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="action" value="increase">
-                                        <button type="submit" class="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-sm">+</button>
-                                    </form>
 
                                     <!-- Hapus -->
                                     <button 

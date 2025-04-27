@@ -36,6 +36,7 @@ class ProdukController extends Controller
             'kategori_id' => 'required|exists:kategoris,id',
             'kuantitas' => 'required|integer|min:0',
             'harga' => 'required|integer|min:0',
+            'gambar_produk' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ], [
             'nama_produk.required' => 'Nama produk harus diisi.',
             'kategori_id.required' => 'Kategori produk harus dipilih.',
@@ -43,7 +44,15 @@ class ProdukController extends Controller
             'harga.required' => 'Harga produk harus diisi.',
             'kuantitas.min' => 'Kuantitas produk tidak boleh kurang dari 0.',
             'harga.min' => 'Harga produk tidak boleh kurang dari 0.',
+            'gambar_produk.image' => 'File harus berupa gambar.',
+            'gambar_produk.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
+            'gambar_produk.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
+
+        if ($request->hasFile('gambar_produk')) {
+            $gambar = $request->file('gambar_produk')->store('produk', 'public');
+            $validated['gambar_produk'] = $gambar;
+        }
 
         Produk::create($validated);
         return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan.');
@@ -77,15 +86,29 @@ class ProdukController extends Controller
         $validated = $request->validate([
             'nama_produk' => 'required|string|max:255',
             'kategori_id' => 'required|exists:kategoris,id',
-            'kuantitas' => 'required|integer',
+            'kuantitas' => 'required|integer|min:0',
             'harga' => 'required|integer|min:0',
+            'gambar_produk' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ], [
             'nama_produk.required' => 'Nama produk harus diisi.',
             'kategori_id.required' => 'Kategori produk harus dipilih.',
             'kuantitas.required' => 'Kuantitas produk harus diisi.',
             'harga.required' => 'Harga produk harus diisi.',
+            'kuantitas.min' => 'Kuantitas produk tidak boleh kurang dari 0.',
             'harga.min' => 'Harga produk tidak boleh kurang dari 0.',
+            'gambar_produk.image' => 'File harus berupa gambar.',
+            'gambar_produk.mimes' => 'Format gambar harus jpeg, png, jpg, atau gif.',
+            'gambar_produk.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
+
+        if ($request->hasFile('gambar_produk')) {
+            // Hapus gambar lama kalau ada
+            if ($produk->gambar_produk && \Storage::disk('public')->exists($produk->gambar_produk)) {
+                \Storage::disk('public')->delete($produk->gambar_produk);
+            }
+            $gambar = $request->file('gambar_produk')->store('produk', 'public');
+            $validated['gambar_produk'] = $gambar;
+        }
 
         $produk->update($validated);
         return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');

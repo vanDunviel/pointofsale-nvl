@@ -6,7 +6,7 @@
     </x-slot>
     <div class="py-12 max-w-lg mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <form action="{{ route('produk.store') }}" method="POST">
+            <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="mb-4">
@@ -61,6 +61,31 @@
                     @enderror
                 </div>
 
+                <div class="mb-4">
+                    <label for="gambar_produk"
+                        class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Gambar Produk</label>
+                    <input type="file" name="gambar_produk" id="gambar_produk"
+                        class="w-full text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded cursor-pointer focus:outline-none @error('gambar_produk') border-red-500 @enderror"
+                        accept="image/jpg,image/png,image/jpeg,image/gif">
+                    @error('gambar_produk')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        Format yang didukung: JPG, PNG, JPEG, GIF (Maksimal 2MB)
+                    </p>
+                </div>
+
+                <div class="mb-4">
+                <div id="image-preview-container" class="hidden"> <!-- Initially hidden -->
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mb-0">Preview:</p>
+                    <img 
+                        id="image-preview" 
+                        src="#" 
+                        alt="Preview Gambar Produk" 
+                        class="max-w-[200px] max-h-[200px] object-contain border border-gray-200 dark:border-gray-600 rounded"
+                    >
+                </div>
+            </div>
 
                 <div class="flex justify-end space-x-3">
                     <a href="{{ route('produk.index') }}"
@@ -71,4 +96,25 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // Image preview functionality
+        document.getElementById('gambar_produk').addEventListener('change', function(e) {
+            const previewContainer = document.getElementById('image-preview-container');
+            const previewImage = document.getElementById('image-preview');
+            
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        });
+    </script>
 </x-app-layout>

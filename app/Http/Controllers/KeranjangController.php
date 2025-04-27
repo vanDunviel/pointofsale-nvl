@@ -122,6 +122,42 @@ class KeranjangController extends Controller
     }
 
     /**
+ * Update the specified resource in storage.
+ */
+public function update(Request $request, ItemKeranjang $item)
+{
+    $request->validate([
+        'quantity' => 'required|integer|min:1'
+    ]);
+
+    $produk = $item->produk;
+    
+    // Calculate total of this product already in cart (including other cart items)
+    $currentInCart = ItemKeranjang::where('produk_id', $produk->id)
+                     ->where('id', '!=', $item->id)
+                     ->sum('jumlah');
+
+    $newQuantity = $request->quantity;
+
+    // Check if quantity exceeds available stock
+    if ($newQuantity > ($produk->kuantitas - $currentInCart)) {
+        return back()->with('error', 'Stok tidak mencukupi. Stok tersedia: '.($produk->kuantitas - $currentInCart));
+    }
+
+    // If quantity is 0, remove item
+    if ($newQuantity < 1) {
+        $item->delete();
+        return back()->with('success', 'Item dihapus dari keranjang');
+    }
+
+    // Update quantity
+    $item->jumlah = $newQuantity;
+    $item->save();
+
+    return back()->with('success', 'Jumlah produk diperbarui');
+}
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(ItemKeranjang $item)

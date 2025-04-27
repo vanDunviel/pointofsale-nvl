@@ -34,10 +34,10 @@
                                         class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Tanggal Transaksi
                                     </th>
-                                    <th
+                                    <!-- <th
                                         class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Nama Produk
-                                    </th>
+                                    </th> -->
                                     <th
                                         class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Total Harga
@@ -59,11 +59,11 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             {{ $transaksi->created_at }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             @foreach ($transaksi->items as $item)
                                                 <div>{{ $item->produk->nama_produk }} (x{{ $item->jumlah }})</div>
                                             @endforeach
-                                        </td>
+                                        </td> -->
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}
