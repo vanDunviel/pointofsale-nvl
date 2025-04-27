@@ -26,13 +26,17 @@
                         </div>
                     @endif
 
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto">       
                         <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                             <thead>
                                 <tr>
                                     <th
                                         class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                                         Tanggal Transaksi
+                                    </th>
+                                    <th
+                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                        Nama Produk
                                     </th>
                                     <th
                                         class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
@@ -55,9 +59,14 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             {{ $transaksi->created_at }}
                                         </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            @foreach ($transaksi->items as $item)
+                                                <div>{{ $item->produk->nama_produk }} (x{{ $item->jumlah }})</div>
+                                            @endforeach
+                                        </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
+                                            Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">

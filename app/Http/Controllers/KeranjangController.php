@@ -15,6 +15,7 @@ class KeranjangController extends Controller
      */
     public function index()
     {
+        $produks=Produk::all();
         $items = ItemKeranjang::with('produk')->get()->map(function ($item) {
             $item->total_harga = $item->produk->harga * $item->jumlah;
             return $item;
@@ -23,6 +24,7 @@ class KeranjangController extends Controller
         $total_belanja = $items->sum('total_harga');
 
         return view('keranjang.index', [
+            'produks' => $produks,
             'items' => $items,
             'total_belanja' => $total_belanja,
         ]);

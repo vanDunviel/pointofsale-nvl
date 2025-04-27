@@ -22,122 +22,119 @@
                 </div>
             @endif
 
-            <div
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex flex-col gap-2 md:flex-row p-2 h-fit">
+            <div class="bg-white dark:bg-gray-800 overflow-x-auto shadow sm:rounded-lg p-6">
+    <div class="flex flex-col md:flex-row gap-6">
+        
+        <!-- Kiri: Produk List -->
+        <div class="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-3 gap-2 overflow-y-auto">
+        @foreach ($produks as $produk)
+            <div class="aspect-square bg-gray-100 dark:bg-gray-900 p-2 rounded shadow flex flex-col items-center justify-between">
+            <img 
+                src="{{ $produk->image_url ?? '/default.jpg' }}" 
+                alt="{{ $produk->nama_produk }}" 
+                class="w-2/3 h-2/3 object-contain rounded mb-1"
+            >
+            <h3 class="text-center font-semibold text-gray-800 dark:text-gray-200 text-sm">
+                {{ Str::limit($produk->nama_produk, 15) }}
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400 text-xs mb-1">
+                Rp {{ number_format($produk->harga, 0, ',', '.') }}
+            </p>
+            <form action="{{ route('keranjang.store') }}" method="POST" class="w-full">
+                @csrf
+                <input type="hidden" name="produk_id" value="{{ $produk->id }}">
+                <input type="hidden" name="jumlah" value="1">
+                <button 
+                type="submit" 
+                class="w-full bg-green-500 hover:bg-green-600 text-white py-1 rounded text-xs font-semibold"
+                >
+                + Tambah
+                </button>
+            </form>
+            </div>
+        @endforeach
+        </div>
 
-                <div
-                    class="bg-neutral-200 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 overflow-hidden shadow-lg sm:rounded-lg w-full h-full overflow-y-auto col-span-1">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 h-full">
-                        <thead>
+        <!-- Kanan: Ringkasan Pembayaran -->
+        <div class="w-full md:w-2/3 flex flex-col gap-4">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <thead class="bg-gray-50 dark:bg-gray-700">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Produk</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Harga</th>
+                            <th class="px-1 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Jumlah</th>
+                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
+                        @forelse ($items as $item)
                             <tr>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Nama Produk
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Harga
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Jumlah
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Total Harga
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Aksi
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            @forelse ($items as $item)
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {{ $item->produk->nama_produk }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->produk->harga, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {{ $item->jumlah }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->total_harga, 0, ',', '.') }}
-                                    </td>
-                                    <td
-                                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex items-center space-x-3">
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $item->produk->nama_produk }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
+                                <td class="px-3 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $item->jumlah }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap flex gap-2 justify-center">
+                                    <!-- Tombol-tombol aksi -->
+                                    <!-- Kurangi -->
+                                    <form action="{{ route('keranjang.store', $item) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" class="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-sm">-</button>
+                                    </form>
 
-                                        <!-- Icon Hapus (Trash icon) -->
-                                        <form action="{{ route('keranjang.destroy', $item) }}" method="POST"
-                                            onsubmit="return confirm('Yakin ingin menghapus?')" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" onclick="openDeleteModal({{ $item->id }})"
-                                                class="text-red-600 hover:text-red-900" title="Hapus">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19 7L5 7M6 7l1 12a2 2 0 002 2h6a2 2 0 002-2l1-12M10 11v6M14 11v6M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
-                                        colspan="9">
-                                        Belum ada data keranjang.
-                                    </td>
-                                </tr>
-                            @endforelse
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
-                                    colspan="9">
-                                    <a href="{{ route('keranjang.create') }}"
-                                        class="text-blue-600 hover:text-blue-900 underline">
-                                        + Tambahkan produk ke keranjang belanja
-                                    </a>
+                                    <!-- Tambah -->
+                                    <form action="{{ route('keranjang.store', $item) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" class="px-3 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded text-sm">+</button>
+                                    </form>
+
+                                    <!-- Hapus -->
+                                    <button 
+                                        type="button" 
+                                        onclick="openDeleteModal({{ $item->id }})" 
+                                        class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm"
+                                    >
+                                        Hapus
+                                    </button>
                                 </td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div
-                    class="bg-neutral-200 dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg flex flex-col gap-4 h-full w-full md:w-[35%] p-4 border border-gray-200 dark:border-gray-700">
-                    <p class="font-semibold text-lg text-gray-800 dark:text-gray-200 leading-loose text-nowrap">
-                        Total Harga: Rp {{ number_format($total_belanja, 0, ',', '.') }}
-                    </p>
-
-                    <form action="{{ route('keranjang.checkout') }}" method="POST">
-                        @csrf
-                        <label for="pay_total" class="block text-gray-700 dark:text-gray-300 font-semibold mb-1">Jumlah
-                            Bayar</label>
-                        <input type="text" name="pay_total" id="pay_total" placeholder=""
-                            value="{{ old('pay_total') }}"
-                            class="w-full rounded gray-300 mb-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 @error('pay_total') border-red-500 @enderror"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
-                        @error('pay_total')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-
-                        <button type="submit"
-                            class="px-4 py-2 rounded font-semibold text-white {{ count($items) === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700' }}"
-                            {{ count($items) === 0 ? 'disabled' : '' }}>
-                            Bayar
-                        </button>
-                        @if (count($items) === 0)
-                            <p class="text-sm text-red-500 mt-2">Keranjang anda masih kosong!</p>
-                        @endif
-                    </form>
-                </div>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                                    Keranjang kosong.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </div>
+
+            <div class="mt-6 border-t pt-4">
+                <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">Subtotal: Rp {{ number_format($total_belanja, 0, ',', '.') }}</p>
+
+                <form action="{{ route('keranjang.checkout') }}" method="POST" class="mt-4">
+                    @csrf
+                    <label class="block mb-1 text-sm font-semibold text-gray-700 dark:text-gray-300">Jumlah Bayar</label>
+                    <input type="text" name="pay_total" class="w-full rounded border-gray-300 mb-2 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 @error('pay_total') border-red-500 @enderror" 
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" placeholder="Masukkan jumlah bayar" required>
+
+                    @error('pay_total')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+
+                    <button type="submit" class="mt-3 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded font-semibold">
+                        Bayar
+                    </button>
+                </form>
+            </div>
+
+        </div> <!-- Tutup kanan -->
+        
+    </div> <!-- Tutup flex -->
+</div> <!-- Tutup kotak -->
 
     <!-- Modal Delete -->
     <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50">
