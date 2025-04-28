@@ -32,13 +32,14 @@ class ProdukController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_produk' => 'required|string|max:255',
+            'nama_produk' => 'required|string|max:255|unique:produks,nama_produk',
             'kategori_id' => 'required|exists:kategoris,id',
             'kuantitas' => 'required|integer|min:0',
             'harga' => 'required|integer|min:0',
             'gambar_produk' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
         ], [
             'nama_produk.required' => 'Nama produk harus diisi.',
+            'nama_produk.unique' => 'Nama produk tidak boleh sama.',
             'kategori_id.required' => 'Kategori produk harus dipilih.',
             'kuantitas.required' => 'Kuantitas produk harus diisi.',
             'harga.required' => 'Harga produk harus diisi.',

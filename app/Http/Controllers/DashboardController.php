@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Transaksi;
@@ -14,18 +15,25 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $jumlahKategori = Kategori::count();
+        $jumlahProduk = Produk::count();
         $jumlahTransaksi = Transaksi::count();
         $totalPendapatan = Transaksi::sum('total_harga');
         $totalStok = Produk::sum('kuantitas');
+        $todaySales = Transaksi::whereDate('created_at', Carbon::today())
+                    ->sum('total_harga');
         
         // Get weekly sales data
         // $weeklySales = $this->getWeeklySalesData();
 
         return view('dashboard', compact(
+            'jumlahProduk',
+            'jumlahKategori',
             'jumlahTransaksi', 
             'totalPendapatan', 
             'totalStok',
-            'weeklySales'
+            'todaySales',
+            // 'weeklySales'
         ));
     }
 

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('History Transaksi') }}
+            {{ __('Riwayat Transaksi') }}
         </h2>
     </x-slot>
 
@@ -31,23 +31,23 @@
                             <thead>
                                 <tr>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Tanggal Transaksi
                                     </th>
-                                    <!-- <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Nama Produk
-                                    </th> -->
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
+                                        Item Belanja
+                                    </th>
+                                    <th
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
+                                        Detail
+                                    </th>
+                                    <th
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Total Harga
                                     </th>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Jumlah Item
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Aksi
                                     </th>
                                 </tr>
@@ -59,18 +59,18 @@
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             {{ $transaksi->created_at }}
                                         </td>
-                                        <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                        <td
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-left text-gray-500 dark:text-gray-300">
+                                            {{ $transaksi->total_item }}
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
                                             @foreach ($transaksi->items as $item)
                                                 <div>{{ $item->produk->nama_produk }} (x{{ $item->jumlah }})</div>
                                             @endforeach
-                                        </td> -->
-                                        <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                            {{ $transaksi->total_item }}
+                                            Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}
                                         </td>
                                         <td
                                             class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex items-center space-x-3">
@@ -79,7 +79,7 @@
                                                 class="text-white-700 hover:text-white-900 mr-2" title="Lihat">
                                                 <!-- Eye icon -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    fill="none" viewBox="0 0 24 24" stroke="blue"
                                                     stroke-width="2">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -93,7 +93,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" onclick="openDeleteModal({{ $transaksi->id }})"
-                                                    class="text-red-600 hover:text-red-900" title="Hapus">
+                                                class="px-1 py-1 rounded-sm bg-red-500 text-white hover:bg-red-900" title="Hapus">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="2">

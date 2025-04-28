@@ -7,7 +7,7 @@
 
     <div class="py-12 max-w-3xl mx-auto sm:px-6 lg:px-8">
         <a href="{{ route('transaksi.print', $transaksi) }}"
-            class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">
+            class="inline-block bg-gray-800 hover:bg-gray-700 text-red-600 font-bold py-2 px-4 rounded mb-4">
             Ekspor PDF
         </a>
 
@@ -111,8 +111,8 @@
         </div>
 
         <a href="{{ route('transaksi.index') }}"
-            class="inline-block mt-6 px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded font-semibold">
-            Kembali ke History Transaksi
+            class="inline-block mt-6 px-4 py-2 bg-red-600 hover:bg-red-800 text-white rounded font-semibold">
+            Kembali
         </a>
     </div>
 </x-app-layout>

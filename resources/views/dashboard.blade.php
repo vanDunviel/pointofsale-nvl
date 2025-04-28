@@ -5,13 +5,13 @@
                 <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                     {{ __('Dashboard') }}
                 </h2>
-                <p class="text-gray-600 dark:text-gray-400">Hai, {{ Auth::user()->name }}!</p>
+                <p class="text-blue-800 dark:text-blue-600">Hai, {{ Auth::user()->name }}!</p>
             </div>
             <div class="text-right">
                 <div class="text-lg font-semibold text-gray-700 dark:text-gray-300">
                     {{ \Carbon\Carbon::now()->format('d F Y') }}
                 </div>
-                <div class="text-2xl font-bold text-gray-900 dark:text-white">
+                <div class="text-2xl font-bold text-blue-800 dark:text-blue-600">
                     {{ \Carbon\Carbon::now()->format('H:i') }}
                 </div>
             </div>
@@ -21,21 +21,39 @@
     <div class="py-12">
         <!-- Metrics Grid -->
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center">
-                <div class="text-lg text-gray-600 dark:text-gray-300">Jumlah Transaksi</div>
+
+            <a href="{{ route('produk.index') }}" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Jumlah Produk</div>
+                <div class="text-3xl font-bold text-blue-600 mt-2">{{ $jumlahProduk }}</div>
+            </a>
+
+            <a href="{{ route('kategori.index') }}" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Kategori Produk</div>
+                <div class="text-3xl font-bold text-blue-600 mt-2">{{ $jumlahKategori }}</div>
+            </a>
+
+            <a href="{{ route('transaksi.index') }}" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Jumlah Transaksi</div>
                 <div class="text-3xl font-bold text-blue-600 mt-2">{{ $jumlahTransaksi }}</div>
-            </div>
+            </a>
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center">
-                <div class="text-lg text-gray-600 dark:text-gray-300">Total Pendapatan</div>
+            <a href="#" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Total Pendapatan</div>
                 <div class="text-3xl font-bold text-green-500 mt-2">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</div>
-            </div>
+            </a>
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center">
-                <div class="text-lg text-gray-600 dark:text-gray-300">Total Stok Produk</div>
+            <a href="#" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Stok Keseluruhan</div>
                 <div class="text-3xl font-bold text-yellow-500 mt-2">{{ $totalStok }}</div>
-            </div>
+            </a>
+
+            <a href="#" class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center hover:shadow-lg transition">
+                <div class="text-lg font-bold text-gray-600 dark:text-gray-300">Penjualan Hari ini</div>
+                <div class="text-3xl font-bold text-red-500 mt-2">Rp {{ number_format($todaySales, 0, ',', '.') }}</div>
+            </a>
+
         </div>
+
 
         <!-- Chart Section (Outside the metrics grid) -->
          <!--
@@ -106,5 +124,5 @@
             }
         });
     </script>
-    @endpush -->
+    @endpush
 </x-app-layout>

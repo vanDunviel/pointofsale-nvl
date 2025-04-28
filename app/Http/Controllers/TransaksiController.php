@@ -78,6 +78,6 @@ class TransaksiController extends Controller
         $transaksi->load(['items.produk']);
 
         $pdf = Pdf::loadView('transaksi.receipt', compact('transaksi'));
-        return $pdf->download('receipt.pdf');
+        return $pdf->stream('receipt.pdf');
     }
 }

@@ -26,7 +26,7 @@
                         </div>
                     @endif
                     <a href="{{ route('produk.create') }}"
-                        class="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-4">
+                        class="inline-block bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded mb-4 ml-50">
                         Tambah Produk
                     </a>
 
@@ -35,23 +35,23 @@
                             <thead>
                                 <tr>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Nama
                                     </th>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Kategori
                                     </th>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Kuantitas
                                     </th>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Harga
                                     </th>
                                     <th
-                                        class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-s leading-4 font-blod text-blue-800 dark:text-gray-300 uppercase tracking-wider">
                                         Aksi
                                     </th>
                                 </tr>
@@ -60,27 +60,27 @@
                                 @forelse ($produks as $produk)
                                     <tr>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                                             {{ $produk->nama_produk }}
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                                             {{ $produk->kategori->nama_kategori }}
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                                             {{ $produk->kuantitas }}
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">
                                             Rp {{ number_format($produk->harga, 0, ',', '.') }}
                                         </td>
                                         <td
-                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300 flex items-center space-x-3">
+                                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 flex items-center space-x-3">
 
                                             <!-- Icon Edit (Pencil icon) -->
                                             <a href="{{ route('produk.edit', $produk) }}"
-                                                class="text-indigo-700 hover:text-indigo-900" title="Edit">
+                                                class="px-1 py-1 rounded-sm bg-indigo-500 text-white hover:bg-indigo-900" title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -94,7 +94,7 @@
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="button" onclick="openDeleteModal({{ $produk->id }})"
-                                                    class="text-red-600 hover:text-red-900" title="Hapus">
+                                                class="px-1 py-1 rounded-sm bg-red-500 text-white hover:bg-red-900" title="Hapus">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="2">

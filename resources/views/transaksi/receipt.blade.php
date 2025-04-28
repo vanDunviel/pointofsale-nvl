@@ -10,122 +10,78 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        table, th, td {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+        }
+    </style>
 </head>
 
-<body class="font-sans antialiased">
+<body style="font-family: 'Poppins', sans-serif;" class="antialiased">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         <main>
             <div class="py-12 max-w-3xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Transaksi pada
-                        {{ $transaksi->created_at }}</h3>
+                        {{ $transaksi->created_at }}
+                    </h3>
 
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <table class="min-w-full">
                         <thead>
                             <tr>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Nama Produk
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Harga Satuan
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Jumlah
-                                </th>
-                                <th
-                                    class="px-6 py-3 bg-gray-50 dark:bg-gray-900 text-left text-xs leading-4 font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                    Harga Total
-                                </th>
+                                <th>Nama Produk</th>
+                                <th>Harga Satuan</th>
+                                <th>Jumlah</th>
+                                <th>Harga Total</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                        <tbody>
                             @forelse ($transaksi->items as $item)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {{ $item->produk->nama_produk }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->produk->harga, 0, ',', '.') }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        {{ $item->jumlah }}
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                        Rp {{ number_format($item->total_harga, 0, ',', '.') }}
-                                    </td>
+                                    <td>{{ $item->produk->nama_produk }}</td>
+                                    <td>Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</td>
+                                    <td>{{ $item->jumlah }}</td>
+                                    <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300"
-                                        colspan="2">
-                                        Belum ada data item.
-                                    </td>
+                                    <td colspan="4" class="text-center">Belum ada data item.</td>
                                 </tr>
                             @endforelse
+                            
+                            <!-- Garis pemisah -->
                             <tr>
-                                <td
-                                    class="px-6 py-4 border-t font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Total
-                                </td>
-                                <td
-                                    class="px-6 py-4 border-t font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 border-t font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 border-t font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}
-                                </td>
+                                <td colspan="4" style="height:10px; background-color:#f1f5f9;"></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="3" class="font-bold">Total</td>
+                                <td>Rp {{ number_format($transaksi->total_harga, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Total Bayar
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Rp {{ number_format($transaksi->total_bayar, 0, ',', '.') }}
-                                </td>
+                                <td colspan="3" class="font-bold">Total Bayar</td>
+                                <td>Rp {{ number_format($transaksi->total_bayar, 0, ',', '.') }}</td>
                             </tr>
                             <tr>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Kembalian
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    -
-                                </td>
-                                <td
-                                    class="px-6 py-4 font-bold whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                                    Rp
-                                    {{ number_format($transaksi->total_bayar - $transaksi->total_harga, 0, ',', '.') }}
-                                </td>
+                                <td colspan="3" class="font-bold">Kembalian</td>
+                                <td>Rp {{ number_format($transaksi->total_bayar - $transaksi->total_harga, 0, ',', '.') }}</td>
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </main>

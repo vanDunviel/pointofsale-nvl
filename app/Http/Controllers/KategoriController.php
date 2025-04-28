@@ -30,7 +30,9 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_kategori' => 'required|string|max:255',
+            'nama_kategori' => 'required|string|max:255|unique:kategoris,nama_kategori',],
+            [
+                'nama_kategori.unique' => 'Nama kategori tidak boleh sama.',
         ]);
 
         Kategori::create($validated);
